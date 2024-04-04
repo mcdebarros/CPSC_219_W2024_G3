@@ -19,7 +19,14 @@
                 <Button alignment="CENTER" onAction="#displayHelpMessage" text="Help"/>
                 <Label fx:id="statusLabel" text="Current Status"/>
             </HBox>
+            <LineChart fx:id="lineChart">
+                <xAxis>
+                    <NumberAxis />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis />
+                </yAxis>
+            </LineChart>
         </VBox>
-        <LineChart fx:id="lineChart" prefWidth="600" prefHeight="300" />
     </center>
 </BorderPane>

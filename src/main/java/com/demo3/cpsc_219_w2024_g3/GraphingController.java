@@ -30,13 +30,6 @@ public class GraphingController {
 
     protected Stage stage;
 
-    public GraphingController() {
-        filePathField = new TextField();
-        modelOrderField = new TextField();
-        finalizeButton = new Button();
-        helpButton = new Button();
-    }
-
     public void finalizeInputs() {
         String path = filePathField.getText();
         String orderString = modelOrderField.getText();
