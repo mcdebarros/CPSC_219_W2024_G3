@@ -4,12 +4,12 @@ import java.io.File;
 
 public class InputChecker {
 
-    public boolean goodPath(String path) {
+    public static boolean goodPath(String path) {
         File dataFile = new File(path);
         return(dataFile.exists() && dataFile.canRead() && dataFile.isFile());
     }
 
-    public boolean goodOrder(String order) {
+    public static boolean goodOrder(String order) {
         int number;
         try {
             number = Integer.parseInt(order); // Attempt to parse int from order string

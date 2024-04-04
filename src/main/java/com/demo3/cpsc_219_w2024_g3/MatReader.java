@@ -3,6 +3,8 @@ package com.demo3.cpsc_219_w2024_g3;
 import java.io.*;
 import java.util.ArrayList;
 
+import static java.lang.StringTemplate.STR;
+
 public class MatReader {
 
     /**

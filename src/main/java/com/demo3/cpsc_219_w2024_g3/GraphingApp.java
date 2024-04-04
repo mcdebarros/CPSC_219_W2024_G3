@@ -4,19 +4,16 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
 public class GraphingApp extends Application {
 
-    public GraphingApp() {}
-
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(GraphingApp.class.getResource("grapher.fxml"));
-        fxmlLoader.setController(new GraphingController());
-        Scene scene = new Scene(fxmlLoader.load(), 480, 240);
-        stage.setTitle("Parameter input");
+        FXMLLoader loader = new FXMLLoader(GraphingApp.class.getResource("regression-template.fxml"));
+        loader.setController(new GraphingController());
+        Scene scene = new Scene(loader.load(), 600, 400);
+        stage.setTitle("Graphing Application");
         stage.setScene(scene);
         stage.show();
     }
@@ -25,3 +22,4 @@ public class GraphingApp extends Application {
         launch();
     }
 }
+

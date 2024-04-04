@@ -8,38 +8,16 @@ import static java.lang.StringTemplate.STR;
 
 public class Regression {
 
-    public List<Object> Regression(String path, String orderString) throws IllegalArgumentException, FileNotFoundException {
+    protected static List<Object> linear(String path, String orderString) throws FileNotFoundException {
 
         int order = Integer.parseInt(orderString); // Parse the integer from the input string
         Matrix data = new Matrix(path); // Initialize the data matrix object
-        List<Object> model = linear(data,order); // Call the linear function to perform regression
-
-        System.out.println("\nModel generated! Find model data below:\n");
-        printResults(model);
-        System.out.println("\n\nWould you like to write it to a file? (Y/N)"); // Prompt for file writing and collect selection
-        String write = input.nextLine().toUpperCase();
-        while (!((write.equals("Y")) || write.equals("N"))) { // Loop while not yes or no
-            System.out.println("I didn't understand your selection. Please choose one of (Y/N).");
-            write = input.nextLine();
-        }
-        if (write.equals("Y")) { // Call the file writer if input is yes
-            MatWriter.writeModel(model);
-        }
-        System.out.println("\nSee you next time!");
-    }
-
-    /**
-     * Performs linear LSR from data matrix
-     * @param data com.demo3.cpsc_219_w2024_g3.Matrix object of scattered data
-     * @param order Order of model to fit
-     * @return Object List of model outputs
-     */
-    private static List<Object> linear(Matrix data, int order) {
+        List<Object> model;
         Matrix z = new Matrix(data.size()[0],order + 1); //Initialize the z array (parameters to multiply resultant coefficients by)
         Matrix y = new Matrix(data.size()[0],1); //Initialize the y vector (actual data)
         Matrix aveVec = new Matrix(data.size()[0],1); //Initialize "data mean" vector; populated entirely by mean of actual data
         double dataAve = 0.0; //Initialize data mean
-        List<Object> model = new ArrayList<>(); //Initialize object list to be populated with model outputs
+        model = new ArrayList<>(); //Initialize object list to be populated with model outputs
         for (int i = 0; i < data.size()[0]; i++) { //Populate the y vector with provided data
             y.setEntry(i,0,data.getEntry(i,1));
 
@@ -79,6 +57,7 @@ public class Regression {
         model.add(a); //Populate the model list with model output
         model.add(phiMod); //Populate the model list with model output
         model.add(rsq); //Populate the model list with model output
+        model.add(data);
 
         return model; //Return the model output list
     }
