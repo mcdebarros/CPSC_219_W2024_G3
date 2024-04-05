@@ -50,7 +50,6 @@ public class GraphingController {
                 Matrix inputData = (Matrix) model.get(3);
                 Matrix syntheticData = (Matrix) model.get(4);
                 plotData(inputData.getMatrix(),syntheticData.getMatrix());
-                stage.close();
             } catch (NumberFormatException e) {
                 displayError("Invalid model order", "Model order must be an integer.");
             } catch (FileNotFoundException e) {
@@ -61,31 +60,27 @@ public class GraphingController {
 
     @SuppressWarnings("unchecked")
     public void plotData(double[][] input, double[][] synthetic) {
-        // Clear existing data from lineChart
+
         lineChart.getData().clear();
 
-        // Create axes
         NumberAxis xAxis = new NumberAxis();
         NumberAxis yAxis = new NumberAxis();
 
-        // Create line chart
         LineChart<Number, Number> chart = new LineChart<>(xAxis, yAxis);
 
         // Add input data series
         XYChart.Series<Number, Number> inputDataSeries = new XYChart.Series<>();
         inputDataSeries.setName("Input Data");
-        for (int i = 0; i < input[0].length; i++) {
-            inputDataSeries.getData().add(new XYChart.Data<>(input[0][i], input[1][i]));
+        for (double[] doubles : input) {
+            inputDataSeries.getData().add(new XYChart.Data<>(doubles[0], doubles[1]));
         }
 
-        // Add synthetic data series
         XYChart.Series<Number, Number> syntheticDataSeries = new XYChart.Series<>();
         syntheticDataSeries.setName("Synthetic Data");
-        for (int i = 0; i < synthetic[0].length; i++) {
-            syntheticDataSeries.getData().add(new XYChart.Data<>(synthetic[0][i], synthetic[1][i]));
+        for (double[] doubles : synthetic) {
+            syntheticDataSeries.getData().add(new XYChart.Data<>(doubles[0], doubles[1]));
         }
 
-        // Add series to chart
         chart.getData().addAll(inputDataSeries, syntheticDataSeries);
 
         // Add series from chart to lineChart
