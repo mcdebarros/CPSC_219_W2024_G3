@@ -9,4 +9,6 @@ module com.demo3.cpsc_219_w2024_g3 {
 
     opens com.demo3.cpsc_219_w2024_g3 to javafx.fxml;
     exports com.demo3.cpsc_219_w2024_g3;
+    exports com.demo3.cpsc_219_w2024_g3.Tests;
+    opens com.demo3.cpsc_219_w2024_g3.Tests to javafx.fxml;
 }
