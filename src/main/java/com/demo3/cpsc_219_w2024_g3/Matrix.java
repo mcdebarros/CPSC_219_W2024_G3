@@ -472,15 +472,6 @@ public class Matrix {
     }
 
     /**
-     * Takes a matrix output and converts it into a readable double[][].
-     * @param toConvert - The Matrix value to convert.
-     * @return double[][] array
-     */
-    public double[][] convertMatrix(Matrix toConvert) {
-        return toConvert.MATRIX;
-    }
-
-    /**
      * Converts matrix double[][] array to string
      * @return String of matrix array
      */
