@@ -33,7 +33,7 @@ public class SyntheticGeneratorTests {
         //Arrange
         double[] testRange = {2.0, 3.0};
         int n = 5;
-        double[] expectedMatrix = {2.0, 2.2, 2.4, 2.6, 3.0};
+        double[] expectedMatrix = {2.0, 2.25, 2.5, 2.75, 3.0};
         //Act
         double[] resultMatrix = SyntheticGenerator.linSpace(testRange, n);
         //Assert
@@ -45,7 +45,7 @@ public class SyntheticGeneratorTests {
         //Arrange
         double[] testRange = {-2.0, -1.0};
         int n = 5;
-        double[] expectedMatrix = {-2.0, -1.8, -1.6, -1.4, -1.0};
+        double[] expectedMatrix = {-2.0, -1.75, -1.5, -1.25, -1.0};
         //Act
         double[] resultMatrix = SyntheticGenerator.linSpace(testRange, n);
         //Assert
