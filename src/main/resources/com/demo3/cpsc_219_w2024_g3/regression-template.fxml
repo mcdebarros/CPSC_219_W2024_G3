@@ -26,13 +26,10 @@
                 <VBox.margin>
                     <Insets />
                 </VBox.margin>
-                <Button alignment="CENTER" onAction="#finalizeInputs" text="Regress" />
-                <Button alignment="CENTER" onAction="#displayHelpMessage" text="Help" />
+                <Button alignment="CENTER" onAction="#finalizeInputs" text="Regress" textFill="#1fd000" />
+                <Button alignment="CENTER" onAction="#displayHelpMessage" text="Help" textFill="RED" />
                 <Label fx:id="statusLabel" text="Current Status" />
             </HBox>
-            <padding>
-               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-            </padding>
             <LineChart fx:id="lineChart">
                 <xAxis>
                     <NumberAxis />
@@ -44,6 +41,9 @@
                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
             </padding>
             </LineChart>
+            <padding>
+               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
         </VBox>
     </center>
 </BorderPane>
