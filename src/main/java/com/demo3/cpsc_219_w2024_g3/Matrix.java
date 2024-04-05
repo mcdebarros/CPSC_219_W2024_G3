@@ -5,10 +5,6 @@ import java.util.Arrays;
 
 import static java.lang.StringTemplate.STR;
 
-//TODO
-// Abstract classing for matrix subtypes?
-// Inheritance?
-
 public class Matrix {
 
     private final int[] DIM; // Array of matrix [M,N] dimensions.

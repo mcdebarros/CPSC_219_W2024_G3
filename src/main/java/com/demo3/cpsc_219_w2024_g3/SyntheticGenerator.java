@@ -1,18 +1,20 @@
 package com.demo3.cpsc_219_w2024_g3;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class SyntheticGenerator {
 
     public static Matrix makeSynth(Matrix a, Matrix input, int n) {
 
-        double[] xCol = new double[a.size()[0]];
-        for (int i = 0; i < a.size()[0]; i++) {
-            xCol[i] = a.getEntry(i,0);
+        double[] xCol = new double[input.size()[0]];
+        System.out.println(Arrays.toString(xCol));
+        for (int i = 0; i < input.size()[0]; i++) {
+            xCol[i] = input.getEntry(i,0);
         }
         double[] x = minMax(xCol);
+        System.out.println(Arrays.toString(x));
         double[] xSyn = linSpace(x,n);
         double[][] synData = new double[n][2];
         for (int i = 0; i < n; i++) {
@@ -25,6 +27,7 @@ public class SyntheticGenerator {
     public static double[] minMax(double[] vec) {
 
         ArrayList<Double> data = new ArrayList<>();
+        System.out.println(Arrays.toString(vec));
         for (double v : vec) {
             data.add(v);
         }
