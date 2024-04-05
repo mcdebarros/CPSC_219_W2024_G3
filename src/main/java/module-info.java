@@ -1,4 +1,4 @@
-module com.demo3.cpsc_219_w2024_g3 {
+module com.demo.cpsc_219_w2024_g {
     requires javafx.controls;
     requires javafx.fxml;
 

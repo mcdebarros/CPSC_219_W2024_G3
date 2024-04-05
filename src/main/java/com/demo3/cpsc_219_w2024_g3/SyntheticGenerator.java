@@ -1,6 +1,8 @@
 package com.demo3.cpsc_219_w2024_g3;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class SyntheticGenerator {
 
@@ -22,35 +24,23 @@ public class SyntheticGenerator {
 
     public static double[] minMax(double[] vec) {
 
-        double min = vec[0];
-        double max = vec[0];
-        double[] range = new double[2];
-
-        for (double point : vec) {
-
-            if (point > max) {
-                max = point;
-            }
-            if (point < min) {
-                min = point;
-            }
+        ArrayList<Double> data = new ArrayList<>();
+        for (double v : vec) {
+            data.add(v);
         }
-        range[0] = min;
-        range[1] = max;
-        return range;
+        double min = Collections.min(data);
+        double max = Collections.max(data);
+        return new double[]{min,max};
     }
 
     public static double[] linSpace(double[] range, int n) {
-
         double[] vec = new double[n];
-        double space = range[1] - range[0];
-        double increment = space / n;
-        vec[0] = range[0];
-        vec[n - 1] = range[1];
-        double prev = vec[0];
-        for (int i = 1; i < (n - 1); i++) {
-            vec[i] = prev + increment;
-            prev += increment;
+        double min = range[0];
+        double max = range[1];
+        double increment = (max - min) / (n - 1);
+
+        for (int i = 0; i < n; i++) {
+            vec[i] = min + i * increment;
         }
 
         return vec;
