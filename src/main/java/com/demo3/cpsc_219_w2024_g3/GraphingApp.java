@@ -8,6 +8,8 @@ import java.io.IOException;
 
 public class GraphingApp extends Application {
 
+    public GraphingApp(){}
+
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader loader = new FXMLLoader(GraphingApp.class.getResource("regression-template.fxml"));

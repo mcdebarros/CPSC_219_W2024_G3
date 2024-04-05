@@ -1,5 +1,6 @@
 package com.demo3.cpsc_219_w2024_g3;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -15,50 +16,51 @@ public class GraphingController {
 
     @FXML
     private TextField filePathField;
-
     @FXML
     private TextField modelOrderField;
-
     @FXML
     private Button finalizeButton;
-
     @FXML
     private Button helpButton;
-
     @FXML
     private LineChart<Double, Double> lineChart;
-
     protected Stage stage;
 
     public void finalizeInputs() {
         String path = filePathField.getText();
         String orderString = modelOrderField.getText();
-        int order = Integer.parseInt(orderString);
-        boolean isGoodInput = (InputChecker.goodOrder(orderString) || InputChecker.goodPath(path));
-        if (!isGoodInput) {
-            displayError("Invalid file", "File not found or is not a valid file.");
-            return;
-        }
-
-        try {
-            int modelOrder = Integer.parseInt(orderString);
-            List<Object> model = Regression.linear(path,orderString);
-            double[] coefficients = (double[]) model.getFirst();
-            double phi = (double) model.get(1);
-            double rsq = (double) model.get(2);
-            Matrix inputData = (Matrix) model.get(3);
-            Matrix syntheticData = (Matrix) model.get(4);
-            plotData(inputData.getMatrix(),syntheticData.getMatrix());
-            stage.close();
-        } catch (NumberFormatException e) {
-            displayError("Invalid model order", "Model order must be an integer.");
-        } catch (FileNotFoundException e) {
-            displayError("File unreadable!", "Could not locate or read the file. Check the directory and try again.");
+        if (!InputChecker.goodOrder(orderString)) {
+            Alert badInput = new Alert(Alert.AlertType.INFORMATION);
+            badInput.setTitle("That didn't make sense!");
+            badInput.setHeaderText(null);
+            badInput.setContentText("Couldn't parse an integer from your order input. Check and try again!");
+            badInput.showAndWait();
+        } else if (!InputChecker.goodPath(path)) {
+            Alert badInput = new Alert(Alert.AlertType.INFORMATION);
+            badInput.setTitle("That didn't make sense!");
+            badInput.setHeaderText(null);
+            badInput.setContentText("Couldn't open file from specified path. Check your file and the path, and try again!");
+            badInput.showAndWait();
+        } else {
+            try {
+                List<Object> model = Regression.linear(path,orderString);
+                Matrix coefficients = (Matrix) model.getFirst();
+                double phi = (double) model.get(1);
+                double rsq = (double) model.get(2);
+                Matrix inputData = (Matrix) model.get(3);
+                Matrix syntheticData = (Matrix) model.get(4);
+                plotData(inputData.getMatrix(),syntheticData.getMatrix());
+                stage.close();
+            } catch (NumberFormatException e) {
+                displayError("Invalid model order", "Model order must be an integer.");
+            } catch (FileNotFoundException e) {
+                displayError("File unreadable!", "Could not locate or read the file. Check the directory and try again.");
+            }
         }
     }
 
     @SuppressWarnings("unchecked")
-    void plotData(double[][] input, double[][] synthetic) {
+    public void plotData(double[][] input, double[][] synthetic) {
         // Clear existing data from lineChart
         lineChart.getData().clear();
 
