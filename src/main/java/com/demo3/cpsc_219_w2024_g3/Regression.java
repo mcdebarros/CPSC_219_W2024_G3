@@ -61,6 +61,7 @@ public class Regression {
         model.add(data);
         model.add(synthetic);
 
+
         return model; //Return the model output list
     }
 
