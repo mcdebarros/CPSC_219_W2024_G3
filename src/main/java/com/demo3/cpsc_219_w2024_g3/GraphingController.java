@@ -43,7 +43,9 @@ public class GraphingController {
         try {
             int modelOrder = Integer.parseInt(orderString);
             List<Object> model = Regression.linear(path,orderString);
-            double[] coefficients = (double[]) model.getFirst();
+            Matrix inputCoefficients = (Matrix) model.getFirst();
+            double[] outputCoefficients = inputCoefficients.convertMatrix(inputCoefficients)[0];
+            //double[] coefficients = (double[]) model.getFirst();
             double phi = (double) model.get(1);
             double rsq = (double) model.get(2);
             Matrix inputData = (Matrix) model.get(3);
@@ -96,7 +98,15 @@ public class GraphingController {
             lineChart.getData().add(newSeries);
         }
     }
-
+    /**
+     * Turns a double[][] array with an empty second row into a double[]. May be unnecessary.
+     * @param input
+     * @return double[] array composed of only row 0.
+     */
+    public double[] arrayFlattener (double[][] input) {
+        double[] output = input[0];
+        return output;
+    }
 
     public void displayHelpMessage() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
