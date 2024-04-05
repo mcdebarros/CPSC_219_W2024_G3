@@ -102,7 +102,12 @@ public class GraphingController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Help");
         alert.setHeaderText(null);
-        alert.setContentText("This is the help message. Provide instructions here.");
+        alert.setContentText("""
+            - To use the tool, create a datafile named "data.txt" and copy the filepath.
+            - Your data file should contain m rows and n columns, and be populated by decimal entries separated by tabs.
+            - Once prompted, tell the program the path to your datafile, and the integer order of the model you wish to fit.
+            - The program will then run the regression tool and fit coefficients for your model, as well as generate an rsq and phi.
+            - You will have the option to write this data to an output file once the regression is complete.""");
         alert.showAndWait();
     }
 
