@@ -50,7 +50,6 @@ public class GraphingController {
                 Matrix inputData = (Matrix) model.get(3);
                 Matrix syntheticData = (Matrix) model.get(4);
                 plotData(inputData.getMatrix(),syntheticData.getMatrix());
-                stage.close();
             } catch (NumberFormatException e) {
                 displayError("Invalid model order", "Model order must be an integer.");
             } catch (FileNotFoundException e) {
@@ -61,31 +60,27 @@ public class GraphingController {
 
     @SuppressWarnings("unchecked")
     public void plotData(double[][] input, double[][] synthetic) {
-        // Clear existing data from lineChart
+
         lineChart.getData().clear();
 
-        // Create axes
         NumberAxis xAxis = new NumberAxis();
         NumberAxis yAxis = new NumberAxis();
 
-        // Create line chart
         LineChart<Number, Number> chart = new LineChart<>(xAxis, yAxis);
 
         // Add input data series
         XYChart.Series<Number, Number> inputDataSeries = new XYChart.Series<>();
         inputDataSeries.setName("Input Data");
-        for (int i = 0; i < input[0].length; i++) {
-            inputDataSeries.getData().add(new XYChart.Data<>(input[0][i], input[1][i]));
+        for (double[] doubles : input) {
+            inputDataSeries.getData().add(new XYChart.Data<>(doubles[0], doubles[1]));
         }
 
-        // Add synthetic data series
         XYChart.Series<Number, Number> syntheticDataSeries = new XYChart.Series<>();
         syntheticDataSeries.setName("Synthetic Data");
-        for (int i = 0; i < synthetic[0].length; i++) {
-            syntheticDataSeries.getData().add(new XYChart.Data<>(synthetic[0][i], synthetic[1][i]));
+        for (double[] doubles : synthetic) {
+            syntheticDataSeries.getData().add(new XYChart.Data<>(doubles[0], doubles[1]));
         }
 
-        // Add series to chart
         chart.getData().addAll(inputDataSeries, syntheticDataSeries);
 
         // Add series from chart to lineChart
@@ -107,9 +102,8 @@ public class GraphingController {
         alert.setContentText("""
             - To use the tool, create a datafile named "data.txt" and copy the filepath.
             - Your data file should contain m rows and n columns, and be populated by decimal entries separated by tabs.
-            - Once prompted, tell the program the path to your datafile, and the integer order of the model you wish to fit.
-            - The program will then run the regression tool and fit coefficients for your model, as well as generate an rsq and phi.
-            - You will have the option to write this data to an output file once the regression is complete.""");
+            - Once a window pops up, enter the path to your datafile in the space provided, and the integer order of the model you wish to fit.
+            - The program will then run the regression tool and fit coefficients for your model, as well as generate an rsq and phi.""");
         alert.showAndWait();
     }
 
