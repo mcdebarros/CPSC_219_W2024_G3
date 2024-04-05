@@ -2,6 +2,7 @@ package com.demo3.cpsc_219_w2024_g3;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static java.lang.StringTemplate.STR;
