@@ -10,11 +10,12 @@ public class GraphingApp extends Application {
 
     public GraphingApp(){}
 
-    @Override
+    @Override @SuppressWarnings("all")
     public void start(Stage stage) throws IOException {
         FXMLLoader loader = new FXMLLoader(GraphingApp.class.getResource("regression-template.fxml"));
         loader.setController(new GraphingController());
         Scene scene = new Scene(loader.load(), 600, 400);
+        scene.getStylesheets().add(getClass().getResource("root.css").toExternalForm());
         stage.setTitle("Graphing Application");
         stage.setScene(scene);
         stage.show();

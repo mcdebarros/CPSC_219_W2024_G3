@@ -2,34 +2,33 @@ package com.demo3.cpsc_219_w2024_g3;
 
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
+
 import java.io.FileNotFoundException;
 import java.util.List;
 
 public class GraphingController {
 
-    @FXML
+    @FXML @SuppressWarnings("unused")
     private TextField filePathField;
-    @FXML
+    @FXML @SuppressWarnings("unused")
     private TextField modelOrderField;
-    @FXML
+    @FXML @SuppressWarnings("unused")
     private Button finalizeButton;
-    @FXML
+    @FXML @SuppressWarnings("unused")
     private Button helpButton;
-    @FXML
+    @FXML @SuppressWarnings("unused")
     private LineChart<Double, Double> lineChart;
-    @FXML
+    @FXML @SuppressWarnings("unused")
     private Label modLabel;
-    @FXML
+    @FXML @SuppressWarnings("unused")
     private Label coefLabel;
-    protected Stage stage;
 
+    @SuppressWarnings("unused")
     public void finalizeInputs() {
         String path = filePathField.getText();
         String orderString = modelOrderField.getText();
@@ -67,38 +66,22 @@ public class GraphingController {
 
         lineChart.getData().clear();
 
-        NumberAxis xAxis = new NumberAxis();
-        NumberAxis yAxis = new NumberAxis();
-
-        LineChart<Number, Number> chart = new LineChart<>(xAxis, yAxis);
-
-        // Add input data series
-        XYChart.Series<Number, Number> inputDataSeries = new XYChart.Series<>();
+        XYChart.Series<Double, Double> inputDataSeries = new XYChart.Series<>();
         inputDataSeries.setName("Input Data");
         for (double[] doubles : input) {
             inputDataSeries.getData().add(new XYChart.Data<>(doubles[0], doubles[1]));
         }
 
-        XYChart.Series<Number, Number> syntheticDataSeries = new XYChart.Series<>();
+        XYChart.Series<Double, Double> syntheticDataSeries = new XYChart.Series<>();
         syntheticDataSeries.setName("Synthetic Data");
         for (double[] doubles : synthetic) {
             syntheticDataSeries.getData().add(new XYChart.Data<>(doubles[0], doubles[1]));
         }
 
-        chart.getData().addAll(inputDataSeries, syntheticDataSeries);
-
-        // Add series from chart to lineChart
-        for (XYChart.Series<Number, Number> series : chart.getData()) {
-            XYChart.Series<Double, Double> newSeries = new XYChart.Series<>();
-            newSeries.setName(series.getName());
-            for (XYChart.Data<Number, Number> data : series.getData()) {
-                newSeries.getData().add(new XYChart.Data<>(data.getXValue().doubleValue(), data.getYValue().doubleValue()));
-            }
-            lineChart.getData().add(newSeries);
-        }
+        lineChart.getData().addAll(inputDataSeries, syntheticDataSeries);
     }
 
-
+    @SuppressWarnings("unused")
     public void displayHelpMessage() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Help");

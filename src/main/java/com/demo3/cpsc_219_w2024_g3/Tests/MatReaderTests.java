@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MatReaderTests {
@@ -48,7 +47,6 @@ public class MatReaderTests {
     public void test_correctLength() throws FileNotFoundException {
 
         String fileName = "src/main/java/com/demo3/cpsc_219_w2024_g3/data.txt";
-        String testString = "1.0\t2.0\t3.0";
         double[][] data = MatReader.getData(fileName);
         int expected = 3;
         int m = data.length;

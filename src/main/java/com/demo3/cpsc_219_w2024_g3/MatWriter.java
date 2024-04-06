@@ -13,13 +13,14 @@ public class MatWriter {
      * Writes model outputs to file
      * @param model Object list of model parameters
      */
-    public static void writeModel(List<Object> model) {
+    @SuppressWarnings("all")
+    public static void writeModel(List<Object> model, String fileName) {
 
         Matrix a = (Matrix) model.getFirst();
         double phi = (double) model.get(1);
         double rsq = (double) model.get(2);
 
-        File coefficients = new File("coefficients.txt"); //Initialize a txt file to store model outputs
+        File coefficients = new File(fileName); //Initialize a txt file to store model outputs
         if (!coefficients.exists()) { //Create a new output file if one does not already exist
             try {
                 coefficients.createNewFile();
@@ -53,9 +54,10 @@ public class MatWriter {
      * Writes matrices to file
      * @param mat com.demo3.cpsc_219_w2024_g3.Matrix object to write
      */
-    public static void writeMat(Matrix mat) {
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public static void writeMat(Matrix mat,String fileName) {
 
-        File matrixData = new File("matrixData.txt"); //Initialize a txt file to store model outputs
+        File matrixData = new File(fileName); //Initialize a txt file to store model outputs
         if (!matrixData.exists()) { //Create a new output file if one does not already exist
             try {
                 matrixData.createNewFile();
@@ -71,8 +73,8 @@ public class MatWriter {
                 aBuffed.write(STR."\{mat.toString()}\n\ndet = \{mat.getDet()}\nsize = \{Arrays.toString(mat.size())}"); //Write the phi and rsq values to the file on their own lines
                 aBuffed.flush(); //Flush the file
                 aBuffed.close(); //Close the file
-                System.out.println("""
-                            File written as "coefficients.txt"! See you next time!""");
+                System.out.println(STR."""
+                            File written as "\{fileName}"! See you next time!""");
             } catch (IOException e) { //Terminate the program if the file cannot be written to
                 System.err.println("Oops! Couldn't write to the file.");
             }
@@ -80,6 +82,36 @@ public class MatWriter {
             System.err.println("Cannot access file to write to!");
             System.exit(11);
         }
-        System.out.println("Model written to 'coefficients.txt'.");
+    }
+
+    @SuppressWarnings("all")
+    public static void writeData(Matrix mat, String fileName) {
+        File matrixData = new File(fileName); //Initialize a txt file to store outputs
+        if (!matrixData.exists()) { //Create a new output file if one does not already exist
+            try {
+                matrixData.createNewFile();
+            } catch (IOException e) { //Terminate the program if a new file cannot be created
+                System.err.println("Trouble writing to file! Check location and do not interrupt.");
+                System.exit(9);
+            }
+        }
+        if (matrixData.exists() && matrixData.isFile() && matrixData.canWrite()) { //Check file existence, writeability, and file-ness
+            try {
+                FileWriter mWrite = new FileWriter(matrixData); //Initialize file writer
+                BufferedWriter aBuffed = new BufferedWriter(mWrite); //Initialized buffered writer
+                for (int i = 0; i < mat.size()[0]; i++) {
+                    aBuffed.write(STR."\{mat.getEntry(i,0)}\t\{mat.getEntry(i,1)}\n");
+                }
+                aBuffed.flush(); //Flush the file
+                aBuffed.close(); //Close the file
+                System.out.println(STR."""
+                            File written as "\{fileName}"! See you next time!""");
+            } catch (IOException e) { //Terminate the program if the file cannot be written to
+                System.err.println("Oops! Couldn't write to the file.");
+            }
+        } else { //Terminate the program if the file to write to cannot be created or found
+            System.err.println("Cannot access file to write to!");
+            System.exit(11);
+        }
     }
 }

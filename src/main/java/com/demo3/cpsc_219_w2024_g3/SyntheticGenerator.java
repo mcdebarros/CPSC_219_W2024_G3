@@ -38,15 +38,16 @@ public class SyntheticGenerator {
         return vec;
     }
 
+    @SuppressWarnings("unused")
     public static Matrix withNoise(Matrix a, int n, double[] range, double fraction) {
 
         Random rng = new Random();
         Matrix clean = pure(a,n,range);
-        for (int i = 0; i < clean.size()[1]; i++) {
-            double entry = clean.getEntry(i,0);
-            double error = clean.getEntry(i,0) * fraction * (rng.nextDouble() * 2 - 1); // Random error within [-maxErrorPercentage, maxErrorPercentage]
+        for (int i = 0; i < clean.size()[0]; i++) {
+            double entry = clean.getEntry(i,1);
+            double error = entry * fraction * (rng.nextDouble() * 2 - 1); // Random error within [-maxErrorPercentage, maxErrorPercentage]
             double noisy = (entry + error);
-            clean.setEntry(i,0,noisy);
+            clean.setEntry(i,1,noisy);
         }
         return clean;
     }

@@ -20,7 +20,7 @@ public class MatWriterTests {
         double rsqValue = 2;
         List<Object> sampleModel = Arrays.asList(matrixA, phiValue, rsqValue);
         //Act
-        MatWriter.writeModel(sampleModel);
+        MatWriter.writeModel(sampleModel,"coefficients.txt");
         //Assert
         assertTrue(new File("coefficients.txt").exists());
     }
@@ -30,7 +30,7 @@ public class MatWriterTests {
         //Arrange
         Matrix matrixA = new Matrix(new double[][] {{10, 20}, {30, 40}});
         //Act
-        MatWriter.writeMat(matrixA);
+        MatWriter.writeMat(matrixA,"matrixData.txt");
         //Assert
         assertTrue(new File("matrixData.txt").exists());
     }

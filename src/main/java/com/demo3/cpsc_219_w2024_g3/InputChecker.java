@@ -9,9 +9,11 @@ public class InputChecker {
         return(dataFile.exists() && dataFile.canRead() && dataFile.isFile());
     }
 
+    @SuppressWarnings("unused")
     public static boolean goodOrder(String order) {
         int number;
         try {
+            //noinspection UnusedAssignment
             number = Integer.parseInt(order); // Attempt to parse int from order string
             return true; // True if successful
         } catch (NumberFormatException e) {

@@ -2,8 +2,6 @@ package com.demo3.cpsc_219_w2024_g3.Tests;
 
 import com.demo3.cpsc_219_w2024_g3.InputChecker;
 import org.junit.Test;
-import java.io.File;
-import java.io.IOException;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
