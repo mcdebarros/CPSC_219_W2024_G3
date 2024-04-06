@@ -68,10 +68,13 @@ public class GraphingController {
                     coefficientString.append("\n");
                 }
                 coefLabel.setText(coefficientString.toString());
+                coefLabel.setStyle("-fx-text-fill: red;");
                 String roundedPhi = decimalFormat.format(phi);
                 phiLabel.setText(roundedPhi);
+                phiLabel.setStyle("-fx-text-fill: red;");
                 String roundedRSquared = decimalFormat.format(rsq);
                 rSquaredLabel.setText(roundedRSquared);
+                rSquaredLabel.setStyle("-fx-text-fill: red;");
             } catch (NumberFormatException e) {
                 displayError("Invalid model order", "Model order must be an integer.");
             } catch (FileNotFoundException e) {
