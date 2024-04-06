@@ -59,13 +59,8 @@ public class GraphingController {
                 plotData(inputData.getMatrix(),syntheticData.getMatrix());
                 DecimalFormat decimalFormat = new DecimalFormat("#.###");
                 StringBuilder coefficientString = new StringBuilder();
-                double[][] coefficientsData = coefficients.getMatrix();
-                for(int i = 0; i < coefficientsData.length; i++){
-                    for(int j = 0; j < coefficientsData[i].length; j++){
-                        double roundedCoefficients = Double.parseDouble(decimalFormat.format(coefficientsData[i][j]));
-                        coefficientString.append(roundedCoefficients);
-                    }
-                    coefficientString.append("\n");
+                for (int i = 0; i < coefficients.size()[0]; i++){
+                    coefficientString.append(String.format(STR."(a\{i}=%2.1e)",coefficients.getEntry(i,0)));
                 }
                 coefLabel.setText(coefficientString.toString());
                 coefLabel.setStyle("-fx-text-fill: red;");
