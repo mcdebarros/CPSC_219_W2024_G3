@@ -7,7 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-
+import java.text.DecimalFormat;
 import java.io.FileNotFoundException;
 import java.util.List;
 
@@ -27,6 +27,10 @@ public class GraphingController {
     private Label modLabel;
     @FXML @SuppressWarnings("unused")
     private Label coefLabel;
+    @FXML
+    private Label phiLabel;
+    @FXML
+    private Label rSquaredLabel;
 
     @SuppressWarnings("unused")
     public void finalizeInputs() {
@@ -53,6 +57,21 @@ public class GraphingController {
                 Matrix inputData = (Matrix) model.get(3);
                 Matrix syntheticData = (Matrix) model.get(4);
                 plotData(inputData.getMatrix(),syntheticData.getMatrix());
+                DecimalFormat decimalFormat = new DecimalFormat("#.###");
+                StringBuilder coefficientString = new StringBuilder();
+                double[][] coefficientsData = coefficients.getMatrix();
+                for(int i = 0; i < coefficientsData.length; i++){
+                    for(int j = 0; j < coefficientsData[i].length; j++){
+                        double roundedCoefficients = Double.parseDouble(decimalFormat.format(coefficientsData[i][j]));
+                        coefficientString.append(roundedCoefficients);
+                    }
+                    coefficientString.append("\n");
+                }
+                coefLabel.setText(coefficientString.toString());
+                String roundedPhi = decimalFormat.format(phi);
+                phiLabel.setText(roundedPhi);
+                String roundedRSquared = decimalFormat.format(rsq);
+                rSquaredLabel.setText(roundedRSquared);
             } catch (NumberFormatException e) {
                 displayError("Invalid model order", "Model order must be an integer.");
             } catch (FileNotFoundException e) {

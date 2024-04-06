@@ -40,6 +40,14 @@
                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
             </padding>
             </LineChart>
+            <VBox alignment="CENTER" spacing="5">
+                <Label text="Coefficients:" />
+                <Label fx:id="coefLabel" />
+                <Label text="Phi Value:" />
+                <Label fx:id="phiLabel" />
+                <Label text="R-Squared:" />
+                <Label fx:id="rSquaredLabel" />
+            </VBox>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
