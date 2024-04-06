@@ -25,9 +25,9 @@
                 <VBox.margin>
                     <Insets />
                 </VBox.margin>
-                <Button alignment="CENTER" onAction="#finalizeInputs" text="Regress" textFill="#1fd000" />
-                <Button alignment="CENTER" onAction="#displayHelpMessage" text="Help" textFill="RED" />
-                <Label fx:id="statusLabel" text="Current Status" />
+                <Button alignment="CENTER" onAction="#finalizeInputs" text="Regress"/>
+                <Button alignment="CENTER" onAction="#displayHelpMessage" text="Help"/>
+                <Label fx:id="statusLabel"/>
             </HBox>
             <LineChart fx:id="lineChart">
                 <xAxis>

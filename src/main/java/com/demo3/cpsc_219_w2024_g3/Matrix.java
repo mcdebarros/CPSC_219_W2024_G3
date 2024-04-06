@@ -12,7 +12,7 @@ public class Matrix {
     private final int M; // M dimension of matrix
     private final int N; // N dimension of matrix.
     private final boolean SQUARE; // Boolean of whether M and N dimensions are equal.
-    private final String TYPE; // Classification of matrix based on dimensionality.
+    private final Type TYPE; // Classification of matrix based on dimensionality.
     private boolean invertible; // Boolean of whether matrix is invertible. Possibly redundant.
     private double det; // Determinant of SQUARE matrix.
 
@@ -121,7 +121,7 @@ public class Matrix {
      * Fetches the array TYPE, ie, data, vector, etc
      * @return string of array TYPE
      */
-    public String getType() {
+    public Type getType() {
         return TYPE;
     }
 
@@ -326,19 +326,19 @@ public class Matrix {
      * Determines matrix TYPE
      * @return matrix TYPE
      */
-    private String type() {
+    private Type type() {
 
-        String type; // Initialize the TYPE String
+        Type type; // Initialize the TYPE String
         if ((M > 2) && (N == 2)) {
-            type = "Data"; // Case if matrix formatted as regressible data
+            type = Type.DATA;
         } else if ((M == 0) && (N > 1)) {
-            type = "Row Vector"; // Case if matrix is 1xn
+            type = Type.ROW; // Case if matrix is 1xn
         } else if ((M > 0) && (N == 0)) {
-            type = "Column Vector"; // Case if matrix is mx1
+            type = Type.COLUMN; // Case if matrix is mx1
         } else if (M != N) {
-            type = "System"; // Case if matrix dimensions are not identical
+            type = Type.SYSTEM; // Case if matrix dimensions are not identical
         } else {
-            type = "Square"; // Case if M and N are the same
+            type = Type.SQUARE; // Case if M and N are the same
         }
         return type;
     }
@@ -348,12 +348,12 @@ public class Matrix {
      * @param row row to fetch
      * @return double[] of row
      */
-    public double[][] getRow(int row) {
+    public Matrix getRow(int row) {
 
         double[][] returnRow = new double[1][N];
         try {
             System.arraycopy(MATRIX[row], 0, returnRow[0], 0, N); // Copy this row to a new double[][] array
-            return returnRow;
+            return new Matrix(returnRow);
         } catch (ArrayIndexOutOfBoundsException e) { // Throw exception if array index exceeds M dimension
             throw new ArrayIndexOutOfBoundsException(STR."Row index out of bounds! Indices range from 1 to \{M}");
         }
@@ -364,7 +364,7 @@ public class Matrix {
      * @param col column to fetch
      * @return double[]
      */
-    public double[][] getCol(int col) {
+    public Matrix getCol(int col) {
 
         double[][] column = new double[M][1];
         try {
@@ -374,7 +374,7 @@ public class Matrix {
         } catch (ArrayIndexOutOfBoundsException e) {
             System.err.println(STR."Column \{col} out of range for matrix with \{N} columns."); // Throw exception if array index exceeds N dimension
         }
-        return column;
+        return new Matrix(column);
     }
 
     /**

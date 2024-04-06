@@ -55,7 +55,7 @@ public class Regression {
             phiData += squareData; //Increment the sum of squared residuals
         }
         double rsq = (phiData - phiMod) / phiData; //Calculate the R squared value of the produced model
-        Matrix synthetic = SyntheticGenerator.makeSynth(a,data,25);
+        Matrix synthetic = SyntheticGenerator.pure(a,25,SyntheticGenerator.minMax(data.getCol(1)));
         model.add(a); //Populate the model list with model output
         model.add(phiMod); //Populate the model list with model output
         model.add(rsq); //Populate the model list with model output

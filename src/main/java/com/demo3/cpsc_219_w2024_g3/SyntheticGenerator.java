@@ -1,35 +1,26 @@
 package com.demo3.cpsc_219_w2024_g3;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.*;
 
 public class SyntheticGenerator {
 
-    public static Matrix makeSynth(Matrix a, Matrix input, int n) {
-
-        double[] xCol = new double[input.size()[0]];
-        System.out.println(Arrays.toString(xCol));
-        for (int i = 0; i < input.size()[0]; i++) {
-            xCol[i] = input.getEntry(i,0);
-        }
-        double[] x = minMax(xCol);
-        System.out.println(Arrays.toString(x));
-        double[] xSyn = linSpace(x,n);
-        double[][] synData = new double[n][2];
-        for (int i = 0; i < n; i++) {
-            synData[i][0] = xSyn[i];
-            synData[i][1] = a.getEntry(0,0) + (xSyn[i] * a.getEntry(1,0)) + (Math.pow(xSyn[i],2) * a.getEntry(2,0));
-        }
-        return new Matrix(synData);
-    }
-
-    public static double[] minMax(double[] vec) {
+    public static double[] minMax(Matrix matrix) {
 
         ArrayList<Double> data = new ArrayList<>();
-        System.out.println(Arrays.toString(vec));
-        for (double v : vec) {
-            data.add(v);
+        if (matrix.getType() == Type.COLUMN) {
+            for (int i = 0; i < matrix.size()[0]; i++) {
+                data.add(matrix.getEntry(i, 0));
+            }
+        } else if (matrix.getType() == Type.ROW) {
+            for (int i = 0; i < matrix.size()[1]; i++) {
+                data.add(matrix.getEntry(0, i));
+            }
+        } else {
+            for (double[] row : matrix.getMatrix()) {
+                for (double entry : row) {
+                    data.add(entry);
+                }
+            }
         }
         double min = Collections.min(data);
         double max = Collections.max(data);
@@ -41,13 +32,38 @@ public class SyntheticGenerator {
         double min = range[0];
         double max = range[1];
         double increment = (max - min) / (n - 1);
-
         for (int i = 0; i < n; i++) {
             vec[i] = min + i * increment;
         }
-
         return vec;
     }
 
+    public static Matrix withNoise(Matrix a, int n, double[] range, double fraction) {
+
+        Random rng = new Random();
+        Matrix clean = pure(a,n,range);
+        for (int i = 0; i < clean.size()[1]; i++) {
+            double entry = clean.getEntry(i,0);
+            double error = clean.getEntry(i,0) * fraction * (rng.nextDouble() * 2 - 1); // Random error within [-maxErrorPercentage, maxErrorPercentage]
+            double noisy = (entry + error);
+            clean.setEntry(i,0,noisy);
+        }
+        return clean;
+    }
+
+    public static Matrix pure(Matrix a, int n, double[] range) {
+
+        int order = a.size()[0];
+        double[][] syn = new double[n][2];
+        double[] x = linSpace(range,n);
+        for (int i = 0; i < n; i++) {
+            syn[i][0] = x[i];
+            syn[i][1] = 0.0;
+            for (int j = 0; j < order; j++) {
+                syn[i][1] += (Math.pow(syn[i][0], j) * a.getEntry(j, 0));
+            }
+        }
+        return new Matrix(syn);
+    }
 
 }

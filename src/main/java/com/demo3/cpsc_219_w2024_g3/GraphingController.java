@@ -1,12 +1,12 @@
 package com.demo3.cpsc_219_w2024_g3;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import java.io.FileNotFoundException;
@@ -24,6 +24,10 @@ public class GraphingController {
     private Button helpButton;
     @FXML
     private LineChart<Double, Double> lineChart;
+    @FXML
+    private Label modLabel;
+    @FXML
+    private Label coefLabel;
     protected Stage stage;
 
     public void finalizeInputs() {

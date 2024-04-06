@@ -1,6 +1,7 @@
 package com.demo3.cpsc_219_w2024_g3.Tests;
 
 import com.demo3.cpsc_219_w2024_g3.Matrix;
+import com.demo3.cpsc_219_w2024_g3.Type;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
@@ -108,7 +109,7 @@ public class MatrixTests {
     public void test_typeData() {
         //Arrange
         Matrix Matrix = new Matrix(3, 2);
-        String expected = "Data";
+        Type expected = Type.DATA;
         //Act --> No action needed
         //Assert
         assertEquals(expected, Matrix.getType());
@@ -118,7 +119,7 @@ public class MatrixTests {
     public void test_typeRowVector() {
         //Arrange
         Matrix Matrix = new Matrix(0, 2);
-        String expected = "Row Vector";
+        Type expected = Type.ROW;
         //Act --> No action needed
         //Assert
         assertEquals(expected, Matrix.getType());
@@ -128,7 +129,7 @@ public class MatrixTests {
     public void test_typeColumnVector() {
         //Arrange
         Matrix Matrix = new Matrix(2, 0);
-        String expected = "Column Vector";
+        Type expected = Type.COLUMN;
         //Act --> No action needed
         //Assert
         assertEquals(expected, Matrix.getType());
@@ -138,7 +139,7 @@ public class MatrixTests {
     public void test_typeSystem() {
         //Assert
         Matrix Matrix = new Matrix(4, 3);
-        String expected = "System";
+        Type expected = Type.SYSTEM;
         //Act --> No action needed
         //Assert
         assertEquals(expected, Matrix.getType());
@@ -148,7 +149,7 @@ public class MatrixTests {
     public void test_typeSquare() throws FileNotFoundException {
         //Assert
         Matrix Matrix = new Matrix("src/main/java/com/demo3/cpsc_219_w2024_g3/data.txt");
-        String expected = "Square";
+        Type expected = Type.SQUARE;
         //Act --> No action needed
         //Assert
         assertEquals(expected, Matrix.getType());
@@ -160,7 +161,9 @@ public class MatrixTests {
         Matrix testMat = new Matrix("src/main/java/com/demo3/cpsc_219_w2024_g3/data.txt");
         //Act
         Matrix testTrans = Matrix.transpose(testMat);
+        Matrix revTrans = Matrix.transpose(testTrans);
         //Assert --> No assertion needed
+        assertEquals(testMat,revTrans);
     }
 
     @Test
@@ -317,16 +320,15 @@ public class MatrixTests {
     @Test
     public void test_getRow() { //Getting all rows from a sample matrix
         //Arrange
-        double[][] matrixA = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-        Matrix matrix = new Matrix(matrixA);
+        Matrix matrix = new Matrix(new double[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
         //Act
-        double[][] expected1stRow = {{1, 2, 3}};
-        double[][] expected2ndRow = {{4, 5, 6}};
-        double[][] expected3rdRow = {{7, 8, 9}};
+        Matrix expected1stRow = new Matrix(new double[][]{{1, 2, 3}});
+        Matrix expected2ndRow = new Matrix(new double[][]{{4, 5, 6}});
+        Matrix expected3rdRow = new Matrix(new double[][]{{7, 8, 9}});
         //Assert
-        assertArrayEquals(expected1stRow, matrix.getRow(0));
-        assertArrayEquals(expected2ndRow, matrix.getRow(1));
-        assertArrayEquals(expected3rdRow, matrix.getRow(2));
+        assertEquals(expected1stRow, matrix.getRow(0));
+        assertEquals(expected2ndRow, matrix.getRow(1));
+        assertEquals(expected3rdRow, matrix.getRow(2));
     }
 
     @Test
@@ -346,16 +348,15 @@ public class MatrixTests {
     @Test
     public void test_getCol() { //Getting all columns from a sample matrix
         //Arrange
-        double[][] matrixA = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-        Matrix matrix = new Matrix(matrixA);
+        Matrix matrix = new Matrix(new double[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
         //Act
-        double[][] expected1stColumn = {{1}, {4}, {7}};
-        double[][] expected2ndColumn = {{2}, {5}, {8}};
-        double[][] expected3rdColumn = {{3}, {6}, {9}};
+        Matrix expected1stColumn = new Matrix(new double[][]{{1}, {4}, {7}});
+        Matrix expected2ndColumn = new Matrix(new double[][]{{2}, {5}, {8}});
+        Matrix expected3rdColumn = new Matrix(new double[][]{{3}, {6}, {9}});
         //Assert
-        assertArrayEquals(expected1stColumn, matrix.getCol(1));
-        assertArrayEquals(expected2ndColumn, matrix.getCol(2));
-        assertArrayEquals(expected3rdColumn, matrix.getCol(3));
+        assertEquals(expected1stColumn, matrix.getCol(1));
+        assertEquals(expected2ndColumn, matrix.getCol(2));
+        assertEquals(expected3rdColumn, matrix.getCol(3));
     }
 
     @Test
