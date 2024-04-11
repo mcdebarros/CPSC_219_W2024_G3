@@ -1,26 +1,25 @@
-# The Matrix Object
+# The Regression Application
 
-This java program is an expansion of the previously developed Regression class. It has been expanded to incorporate a unique Matrix object and useful methods thereof. The regression class has been restructured to operate on the matrix object, and utility classes for data reading and writing have been incorporated.
+This java program is an expansion of the previously developed Regression class. It has been expanded to incorporate a unique Matrix object and useful methods thereof, as well as a new GUI for data plotting. The GUI now handles all inputs and outputs including exception handling, file writing and reading, and data plotting.
 
 ## Functionality
 
-- Functional GUI which plots the data points and shows a line of best fit from the dataset provided
-- Construction of matrices from data files, user input, or pre-populated double[][] arrays
-- Calculates and updates properties such as determinants, dimensionality, and invertability.
-- Methods for determinants, transposes, manual reassignment of entries, display, equality, among others
-- Regression class continues to deliver fast and reliable linear LSR
-- Reader and writer classes to collect and write tab delimited data
+- GUI to handle all inputs, outputs, plots, and exceptions
+- Matrix object with functionality such as transposing, inverting, and multiplication
+- Writer/reader classes for Matrix objects and linear models from .txt files
+- Linear least squares regression
+- Synthetic data generation
 
 ## Usage
 
-1. Compile the Java program: `javac Regression.java`
-2. Run the program and follow prompts to indicate the path to your data file and the order of model you wish to fit
-3. Choose whether to write your coefficients to a .txt file or simply display the results
-4. Additional classes can be written for user-desired functionality using the methods provided in the matrix object
+1. Compile the Java program: `javac GraphingApp.java`
+2. Run the program and input a filepath and model order for the data you wish to regress
+3. Click 'Regress' and watch the magic happen
+4. Close the window, or write your model parameters to a txt file of your choosing
 
 Example:
 ```bash
-java Regression
+java GraphingApp
 ```
 ## Requirements
 
