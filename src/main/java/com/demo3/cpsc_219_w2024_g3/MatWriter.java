@@ -14,7 +14,7 @@ public class MatWriter {
      * @param model Object list of model parameters
      */
     @SuppressWarnings("all")
-    public static void writeModel(List<Object> model, String fileName) {
+    public static void writeModel(List<Object> model, String fileName) throws IOException {
 
         Matrix a = (Matrix) model.getFirst();
         double phi = (double) model.get(1);
@@ -47,7 +47,7 @@ public class MatWriter {
             System.err.println("\nCannot access file to write to!");
             System.exit(11);
         }
-        System.out.println("\nModel written to 'coefficients.txt'.");
+        System.out.println(STR."\nModel written to '\{fileName}'.");
     }
 
     /**

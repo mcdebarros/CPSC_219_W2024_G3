@@ -1,13 +1,16 @@
 package com.demo3.cpsc_219_w2024_g3;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import java.text.DecimalFormat;
+import javafx.stage.FileChooser;
+import org.apache.commons.io.FilenameUtils;
+import java.io.File;
+import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.util.List;
 
@@ -18,31 +21,34 @@ public class GraphingController {
     @FXML @SuppressWarnings("unused")
     private TextField modelOrderField;
     @FXML @SuppressWarnings("unused")
-    private Button finalizeButton;
-    @FXML @SuppressWarnings("unused")
-    private Button helpButton;
+    private TextField writeTo;
     @FXML @SuppressWarnings("unused")
     private LineChart<Double, Double> lineChart;
     @FXML @SuppressWarnings("unused")
     private Label modLabel;
     @FXML @SuppressWarnings("unused")
     private Label coefLabel;
-    @FXML
+    @FXML @SuppressWarnings("unused")
     private Label phiLabel;
-    @FXML
+    @FXML @SuppressWarnings("unused")
     private Label rSquaredLabel;
+    private List<Object> model;
 
-    @SuppressWarnings("unused")
-    public void finalizeInputs() {
-        String path = filePathField.getText();
-        String orderString = modelOrderField.getText();
-        if (!InputChecker.goodOrder(orderString)) {
+    /**
+     * Action of "regress" button
+     * @throws FileNotFoundException when input data file not found
+     */
+    @SuppressWarnings("all")
+    public void finalizeInputs() throws FileNotFoundException {
+        String path = filePathField.getText(); // Get the path file
+        String orderString = modelOrderField.getText(); // Get the order
+        if (!InputChecker.goodOrder(orderString)) { // Alert the user in a pop-up if the provided order could not be parsed to integer
             Alert badInput = new Alert(Alert.AlertType.INFORMATION);
             badInput.setTitle("That didn't make sense!");
             badInput.setHeaderText(null);
             badInput.setContentText("Couldn't parse an integer from your order input. Check and try again!");
             badInput.showAndWait();
-        } else if (!InputChecker.goodPath(path)) {
+        } else if (!InputChecker.goodPath(path)) { // Alert the user in a pop-up if the provided path could not be resolved or read as a .txt file
             Alert badInput = new Alert(Alert.AlertType.INFORMATION);
             badInput.setTitle("That didn't make sense!");
             badInput.setHeaderText(null);
@@ -50,54 +56,74 @@ public class GraphingController {
             badInput.showAndWait();
         } else {
             try {
-                List<Object> model = Regression.linear(path,orderString);
-                Matrix coefficients = (Matrix) model.getFirst();
+                model = Regression.linear(path,orderString); // Perform linear regression
+                Matrix coefficients = (Matrix) model.getFirst(); // These five lines extract model information from the returned Object List
                 double phi = (double) model.get(1);
                 double rsq = (double) model.get(2);
                 Matrix inputData = (Matrix) model.get(3);
                 Matrix syntheticData = (Matrix) model.get(4);
-                plotData(inputData.getMatrix(),syntheticData.getMatrix());
-                DecimalFormat decimalFormat = new DecimalFormat("#.###");
-                StringBuilder coefficientString = new StringBuilder();
-                for (int i = 0; i < coefficients.size()[0]; i++){
-                    coefficientString.append(String.format(STR."(a\{i}=%2.1e)",coefficients.getEntry(i,0)));
+                plotData(inputData.getMatrix(),syntheticData.getMatrix()); // Plot the data
+                StringBuilder coefficientString = new StringBuilder(); // Model coefficient string builder
+                for (int i = 0; i < coefficients.size()[0]; i++){ // Add coefficients to the string
+                    coefficientString.append(String.format("[%2.1e] ",coefficients.getEntry(i,0)));
                 }
-                coefLabel.setText(coefficientString.toString());
+                coefLabel.setText(coefficientString.toString()); // Set labels for model output parameters
                 coefLabel.setStyle("-fx-text-fill: red;");
-                String roundedPhi = decimalFormat.format(phi);
+                String roundedPhi = String.format("%2.1e",phi);
                 phiLabel.setText(roundedPhi);
                 phiLabel.setStyle("-fx-text-fill: red;");
-                String roundedRSquared = decimalFormat.format(rsq);
+                String roundedRSquared = String.format("%3.2e",rsq);
                 rSquaredLabel.setText(roundedRSquared);
                 rSquaredLabel.setStyle("-fx-text-fill: red;");
             } catch (NumberFormatException e) {
-                displayError("Invalid model order", "Model order must be an integer.");
+                displayError("Invalid model order", "Model order must be an integer."); // Alert the user in a pop-up if the provided order could not be parsed to integer
             } catch (FileNotFoundException e) {
-                displayError("File unreadable!", "Could not locate or read the file. Check the directory and try again.");
+                displayError("File unreadable!", "Could not locate or read the file. Check the directory and try again."); // Alert the user in a pop-up if the provided path could not be resolved or read as a .txt file
             }
         }
     }
 
+    /**
+     * Opens a file browser to select .txt file path
+     */
+    @SuppressWarnings("unused")
+    public void getFile() {
+        FileChooser get = new FileChooser();
+        get.setTitle("Select Data File");
+        File data = get.showOpenDialog(null);
+        if (data != null && FilenameUtils.getExtension(data.getPath()).equals("txt")) {
+            filePathField.setText(data.getAbsolutePath());
+        }
+    }
+
+    /**
+     * Plots both synthetic and input model data
+     * @param input Input (noisy) data
+     * @param synthetic Output (exact) data
+     */
     @SuppressWarnings("unchecked")
     public void plotData(double[][] input, double[][] synthetic) {
 
-        lineChart.getData().clear();
+        lineChart.getData().clear(); // Clear the chart
 
-        XYChart.Series<Double, Double> inputDataSeries = new XYChart.Series<>();
+        XYChart.Series<Double, Double> inputDataSeries = new XYChart.Series<>(); // Create a new data series and populate it with the input data
         inputDataSeries.setName("Input Data");
         for (double[] doubles : input) {
             inputDataSeries.getData().add(new XYChart.Data<>(doubles[0], doubles[1]));
         }
 
-        XYChart.Series<Double, Double> syntheticDataSeries = new XYChart.Series<>();
+        XYChart.Series<Double, Double> syntheticDataSeries = new XYChart.Series<>(); // Create a new data series and populate it with the synthetic data
         syntheticDataSeries.setName("Synthetic Data");
         for (double[] doubles : synthetic) {
             syntheticDataSeries.getData().add(new XYChart.Data<>(doubles[0], doubles[1]));
         }
 
-        lineChart.getData().addAll(inputDataSeries, syntheticDataSeries);
+        lineChart.getData().addAll(inputDataSeries, syntheticDataSeries); // Add all series to the chart
     }
 
+    /**
+     * Help message and instructions for the user
+     */
     @SuppressWarnings("unused")
     public void displayHelpMessage() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -111,12 +137,41 @@ public class GraphingController {
         alert.showAndWait();
     }
 
+    /**
+     * Generic pop-up error window
+     * @param title Nature of the error
+     * @param message Error message and instructions
+     */
     private void displayError(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    /**
+     * Action of "write" button
+     * @throws IOException if file writing fails
+     */
+    @SuppressWarnings("all")
+    public void writeButton() throws IOException {
+        String path = writeTo.getText();
+        if (model == null) { // Do not permit file writing if the user has not performed a regression
+            displayError("Must regress!","No regression performed yet. Regress and try again.");
+        } else {
+            try { // Write the model parameters and close the application
+                MatWriter.writeModel(model, path);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Success!");
+                alert.setHeaderText(null);
+                alert.setContentText(STR."Model successfully written as \{path}.");
+                alert.showAndWait();
+                Platform.exit();
+            } catch (IOException e) { // Alert the user that writing has failed
+                displayError("Uh oh!", "Trouble writing to file, check path and destination, then try again.");
+            }
+        }
     }
 }
 

@@ -5,6 +5,7 @@ import com.demo3.cpsc_219_w2024_g3.Matrix;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class MatWriterTests {
 
     @Test
-    public void test_writeModel() { // Testing to see if the MatWriter() class can write a sample regression model to a file
+    public void test_writeModel() throws IOException { // Testing to see if the MatWriter() class can write a sample regression model to a file
         //Arrange
         Matrix matrixA = new Matrix(new double[][] {{10, 20}, {30, 40}});
         double phiValue = 1;
