@@ -56,6 +56,10 @@ The Matrix object is also compatible with the file writer and reader, and has it
 - Iterative solving for transcendental systems 
 - Option to store data in another file
 
+## Notes
+
+- VM commands may be necessary to identify the path to JavaFX runtime components or required modules
+
 ## Authors
 
 This program was collectively written by Gage, Gabe, Mo, and Kellen
